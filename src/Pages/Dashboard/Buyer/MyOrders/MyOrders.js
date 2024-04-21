@@ -24,7 +24,9 @@ const MyOrders = () => {
                {
                   headers: {
                      "content-type": "application/json",
-                     authorization: accessToken,
+                     authorization: `Bearer ${localStorage.getItem(
+                        "productKoToken"
+                     )}`,
                   },
                }
             );
@@ -51,7 +53,9 @@ const MyOrders = () => {
             method: "delete",
             headers: {
                "content-type": "application/json",
-               authorization: accessToken,
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
             body: JSON.stringify(order),
          });

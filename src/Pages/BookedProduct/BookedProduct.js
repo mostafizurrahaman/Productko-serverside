@@ -19,7 +19,9 @@ const BookedProduct = () => {
       queryFn: async () => {
          const res = await fetch(`${baseURL}/product/${id}`, {
             headers: {
-               authorization: accessToken,
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
          });
 
@@ -33,15 +35,21 @@ const BookedProduct = () => {
       },
    });
    const { data: currentUser = {} } = useQuery({
-      queryKey: ["currentUser", user?.email],
+      queryKey: ["currentUser"],
       queryFn: async () => {
-         if (user?.email) {
-            const res = await fetch(`${baseURL}/user?email=${user?.email}`);
-            const data = await res.json();
-            // console.log(data);
-            return data.data.users[0];
+         const res = await fetch(`${baseURL}/user/me`, {
+            headers: {
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
+            },
+         });
+         if (res.status === 403 || res.status === 401) {
+            return logOut();
          }
-         return {};
+         const data = await res.json();
+         // console.log(data);
+         return data.data;
       },
    });
    const navigate = useNavigate();
@@ -77,11 +85,13 @@ const BookedProduct = () => {
             method: "POST",
             headers: {
                "content-type": "application/json",
-               authorization: accessToken,
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
             body: JSON.stringify(bookedProduct),
          });
-         if (res.status === "403" || res.status === "401") {
+         if (res.status === 403 || res.status === 401) {
             return logOut();
          }
          const data = await res.json();

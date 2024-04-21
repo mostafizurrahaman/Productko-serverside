@@ -20,7 +20,9 @@ const ReportedProducts = () => {
       queryFn: async () => {
          const res = await fetch(`${baseURL}/product?status=reported`, {
             headers: {
-               authorization: accessToken,
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
          });
 

@@ -25,7 +25,9 @@ const MyProduct = () => {
                `${baseURL}/product?sellerInfo.email=${user?.email}`,
                {
                   headers: {
-                     authorization: accessToken,
+                     authorization: `Bearer ${localStorage.getItem(
+                        "productKoToken"
+                     )}`,
                   },
                }
             );
@@ -51,7 +53,9 @@ const MyProduct = () => {
             method: "PATCH",
             headers: {
                "content-type": "application/json",
-               authorization: accessToken,
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
             body: JSON.stringify({ isAdvertised: true }),
          });
@@ -79,7 +83,9 @@ const MyProduct = () => {
          const res = await fetch(`${baseURL}/product/${product._id}`, {
             method: "Delete",
             headers: {
-               authorization: accessToken,
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
          });
          if (res.status === 403 || res.status === 401) {
@@ -183,7 +189,7 @@ const MyProduct = () => {
                                           : "text-red-500"
                                     }`}
                                  >
-                                    {product.payStatus}
+                                    sold
                                  </span>
                               ) : (
                                  "-"

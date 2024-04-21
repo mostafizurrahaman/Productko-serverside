@@ -30,7 +30,9 @@ const Product = ({ product, refetch }) => {
             method: "PATCH",
             headers: {
                "content-type": "application/json",
-               authorization: accessToken,
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
             body: JSON.stringify({
                status: "reported",

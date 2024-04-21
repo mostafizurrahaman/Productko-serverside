@@ -25,7 +25,7 @@ const MyCheckoutFrom = ({ booking, refetch }) => {
          method: "POST",
          headers: {
             "content-type": "application/json",
-            authorization: accessToken,
+            authorization: `Bearer ${localStorage.getItem("productKoToken")}`,
          },
          body: JSON.stringify(booking),
       })
@@ -101,7 +101,9 @@ const MyCheckoutFrom = ({ booking, refetch }) => {
                method: "POST",
                headers: {
                   "content-type": "application/json",
-                  authorization: accessToken,
+                  authorization: `Bearer ${localStorage.getItem(
+                     "productKoToken"
+                  )}`,
                },
                body: JSON.stringify(payment),
             });

@@ -18,22 +18,22 @@ const AuthProvider = ({ children }) => {
    const [loading, setLoading] = useState(true);
 
    const createUser = (email, password) => {
-      setLoading(true); 
+      setLoading(true);
       return createUserWithEmailAndPassword(auth, email, password);
    };
    const LogIn = (email, password) => {
-      setLoading(true); 
+      setLoading(true);
       return signInWithEmailAndPassword(auth, email, password);
    };
 
    const logOut = () => {
-      localStorage.removeItem('productKoToken'); 
-      setLoading(true); 
+      localStorage.removeItem("productKoToken");
+      setLoading(true);
       return signOut(auth);
    };
 
    const GoogleSignIn = () => {
-      setLoading(true); 
+      setLoading(true);
       return signInWithPopup(auth, googleProvider);
    };
 
@@ -57,6 +57,7 @@ const AuthProvider = ({ children }) => {
       setLoading,
       loading,
       addInfo,
+      setUser,
    };
    return (
       <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

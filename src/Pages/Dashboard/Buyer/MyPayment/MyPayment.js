@@ -7,7 +7,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import MyCheckoutFrom from "../../../../Components/MyCheckoutForm/MyCheckoutFrom";
 import Loading from "../../../../Components/Loading/Loading";
-import CheckOutFrom from "../../CheckOut/CheckOutFrom";
+
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 const MyPayment = () => {
    const { id } = useParams();
@@ -22,7 +22,9 @@ const MyPayment = () => {
       queryFn: async () => {
          const res = await fetch(`${baseURL}/booking/${id}`, {
             headers: {
-               authorization: accessToken,
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
          });
          if (res.status === 403 || res.status === 401) {
@@ -51,8 +53,10 @@ const MyPayment = () => {
                      {booking?.product?.name}
                   </span>
                   <Elements stripe={stripePromise}>
-                     <MyCheckoutFrom booking={booking}></MyCheckoutFrom>
-                    
+                     <MyCheckoutFrom
+                        booking={booking}
+                        refetch={refetch}
+                     ></MyCheckoutFrom>
                   </Elements>
                </h1>
             </div>

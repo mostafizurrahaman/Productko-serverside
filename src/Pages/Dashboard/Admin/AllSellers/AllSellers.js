@@ -5,7 +5,7 @@ import { RiDeleteBin2Fill } from "react-icons/ri";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../../Context/AuthProvider";
 import useTitle from "../../../../hooks/useTitle";
-import { accessToken, baseURL } from "../../../../configs/configs";
+import { baseURL } from "../../../../configs/configs";
 const AllSellers = () => {
    const { logOut } = useContext(AuthContext);
    useTitle("All sellers");
@@ -18,12 +18,14 @@ const AllSellers = () => {
       queryFn: async () => {
          const res = await fetch(`${baseURL}/user?role=seller`, {
             headers: {
-               authorization: accessToken,
+               "content-type": "application/json",
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
          });
          if (res.status === 403 || res.status === 401) {
-            logOut();
-            return;
+            return logOut();
          }
          const data = await res.json();
          return data.data.users;
@@ -41,14 +43,15 @@ const AllSellers = () => {
             method: "PATCH",
             headers: {
                "content-type": "application/json",
-               authorization: accessToken,
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
             body: JSON.stringify({ isVerified: true }),
          });
 
          if (res.status === 403 || res.status === 401) {
-            logOut();
-            return;
+            return logOut();
          }
 
          const data = await res.json();
@@ -69,7 +72,9 @@ const AllSellers = () => {
          const res = await fetch(`${baseURL}/user/${seller._id}`, {
             method: "DELETE",
             headers: {
-               authorization: accessToken,
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
          });
 

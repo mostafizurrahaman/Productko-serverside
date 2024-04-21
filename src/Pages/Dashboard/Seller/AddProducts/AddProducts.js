@@ -28,9 +28,19 @@ const AddProducts = () => {
       queryKey: ["currentUser", user?.email],
       queryFn: async () => {
          if (user?.email) {
-            const res = await fetch(`${baseURL}/user?email=${user?.email}`);
+            const res = await fetch(`${baseURL}/user/me`, {
+               headers: {
+                  authorization: `Bearer ${localStorage.getItem(
+                     "productKoToken"
+                  )}`,
+               },
+            });
+            if (res.status === 403 || res.status === 401) {
+               logOut();
+               return;
+            }
             const data = await res.json();
-            return data.data.users[0];
+            return data.data;
          }
          return {};
       },
@@ -82,7 +92,9 @@ const AddProducts = () => {
                   method: "POST",
                   headers: {
                      "content-type": "application/json",
-                     authorization: accessToken,
+                     authorization: `Bearer ${localStorage.getItem(
+                        "productKoToken"
+                     )}`,
                   },
                   body: JSON.stringify(product),
                })

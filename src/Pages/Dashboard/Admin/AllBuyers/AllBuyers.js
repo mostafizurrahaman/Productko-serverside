@@ -20,7 +20,9 @@ const AllBuyers = () => {
       queryFn: async () => {
          const res = await fetch(`${baseURL}/user?role=buyer`, {
             headers: {
-               authorization: accessToken,
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
          });
          if (res.status === 403 || res.status === 401) {
@@ -42,7 +44,9 @@ const AllBuyers = () => {
          const res = await fetch(`${baseURL}/user/${buyer._id}`, {
             method: "DELETE",
             headers: {
-               authorization: accessToken,
+               authorization: `Bearer ${localStorage.getItem(
+                  "productKoToken"
+               )}`,
             },
          });
 
